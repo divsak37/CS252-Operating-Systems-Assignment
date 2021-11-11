@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <math.h>
 
+/* structure to store results */
 typedef struct statistics
 {
 	int max, min;
@@ -11,9 +12,10 @@ typedef struct statistics
 	int *arr;
 }stats;
 
-stats results;
-int len;
+stats results; /* global instnace of statistics */
+int len; /* length of array */
 
+/* maximum element of array */
 void *max_num(void *arg)
 {
 	int *arr = (int *) arg;
@@ -27,6 +29,7 @@ void *max_num(void *arg)
 	pthread_exit(NULL);
 }
 
+/* minimum element of array */
 void *min_num(void *arg)
 {
 	int *arr = (int *) arg;
@@ -40,6 +43,7 @@ void *min_num(void *arg)
 	pthread_exit(NULL);
 }
 
+/* average of elements of array */
 void *arr_avg(void *arg)
 {
 	int *arr = (int *) arg;
@@ -52,6 +56,7 @@ void *arr_avg(void *arg)
 	pthread_exit(NULL);
 }
 
+/* standard deviation of elements of array*/
 void *standard_dev(void *arg)
 {
 	int *arr = (int *) arg;
@@ -64,12 +69,14 @@ void *standard_dev(void *arg)
 	pthread_exit(NULL);
 }
 
+/* median of elements of array */
 void *arr_med(void *arg)
 {
 	int *arg_arr = (int *)arg;
 	int *arr = (int *)malloc(sizeof(int)*len);
 	for(int i = 0; i < len; i++)
 		arr[i] = arg_arr[i];
+	/* sorting the array using bubble sort */
 	for(int i = 0; i < len - 1; i++)
 	{
 		int sw = 0;
@@ -92,6 +99,7 @@ void *arr_med(void *arg)
 		results.med = arr[len/2];
 
 }
+
 int main(void)
 {
 	printf("Enter number of elements in the array: ");
@@ -99,13 +107,17 @@ int main(void)
 	int *arr = (int*)malloc(sizeof(int)*len);
 	for(int i = 0; i < len; i++)
 		scanf("%d", &arr[i]);
+	/* creating threads */
 	pthread_t tid[4];
 	pthread_create(&tid[0], NULL, arr_avg, (void*)arr);
 	pthread_create(&tid[1], NULL, max_num, (void*)arr);
 	pthread_create(&tid[2], NULL, min_num, (void*)arr);
 	pthread_create(&tid[3], NULL, arr_med, (void*)arr);
-	pthread_join(tid[0], NULL);
+	/* waiting for average to be calculated before standard deviation is started */
+	pthread_join(tid[0], NULL); 
+	/* satarting standard deviation thread */
 	pthread_create(&tid[0], NULL, standard_dev, (void*)arr);
+	/* waitng for all threads to join */
 	for(int i = 0; i < 3; i++)
 		pthread_join(tid[i], NULL);
 	printf("The average is %f\nThe minimum is %d\nThe maximum is %d\nThe standard deviation is %f\nThe Median is %f\n",results.avg, results.min, results.max, results.std_dev, results.med);
