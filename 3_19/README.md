@@ -21,6 +21,6 @@ To run the compiled program:
 ```
 
 # Example Screenshots
-![Shared Memory Example](/screenshots/share_mem_eg.png)
-![Pipes Example](/screenshots/pipes_eg.png)
+![Shared Memory Example](./screenshots/share_mem_eg.png)
+![Pipes Example](./screenshots/pipes_eg.png)
 
