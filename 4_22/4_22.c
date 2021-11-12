@@ -105,6 +105,7 @@ int main(void)
 	printf("Enter number of elements in the array: ");
 	scanf("%d", &len);
 	int *arr = (int*)malloc(sizeof(int)*len);
+	printf("Enter the numbers, each separated by a space: ");
 	for(int i = 0; i < len; i++)
 		scanf("%d", &arr[i]);
 	/* creating threads */

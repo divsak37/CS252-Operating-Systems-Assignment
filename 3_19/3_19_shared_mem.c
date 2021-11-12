@@ -12,7 +12,7 @@ struct timeval * start_time;
 
 int main(int arg_cnt, char ** argv) {
     if (arg_cnt < 2) {
-        printf("Invalid Syntax", );
+        printf("Invalid Syntax");
         exit(0);
     }
     /* creating a shared memory space using mmap */
@@ -24,12 +24,11 @@ int main(int arg_cnt, char ** argv) {
     } else if (pid == 0) {
         /* child process here */
         char args[200] = "";
+        char n = '\0';
         for (int i = 1; i < arg_cnt; i++) {
             strcat(args, argv[i]);
             if (i != arg_cnt - 1)
                 strcat(args, " ");
-            else
-                strcat(args, '\0');
         }
         gettimeofday(start_time, NULL);
         /* following will execute the command on shell */

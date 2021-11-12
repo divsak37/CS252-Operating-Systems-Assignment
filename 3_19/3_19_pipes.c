@@ -9,7 +9,7 @@
 
 int main(int arg_cnt, char ** argv) {
     if (arg_cnt < 2) {
-        printf("Invalid Syntax", );
+        printf("Invalid Syntax");
         exit(0);
     }
     int fd[2]; /* f[0]- to read, fd[1] - to */
@@ -29,8 +29,6 @@ int main(int arg_cnt, char ** argv) {
             strcat(args, argv[i]);
             if (i != arg_cnt - 1)
                 strcat(args, " ");
-            else
-                strcat(args, '\0');
         }
         struct timeval start_time;
         gettimeofday( & start_time, NULL);
