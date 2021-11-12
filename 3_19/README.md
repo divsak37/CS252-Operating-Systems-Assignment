@@ -19,7 +19,7 @@ To run the compiled program:
 ```sh
    ./a.out <command>
 ```
-where <command> is the shell command that is to be run
+where \<command\> is the shell command that is to be run
 
 # Example Screenshots
 ![Shared Memory Example](./screenshots/share_mem_eg.png)
