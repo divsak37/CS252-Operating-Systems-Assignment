@@ -12,16 +12,20 @@ int main(int arg_cnt, char ** argv) {
         printf("Invalid Syntax");
         exit(0);
     }
-    int fd[2]; /* f[0]- to read, fd[1] - to */
-    /* creating a pipe */
+    int fd[2]; 
+    /* creating a pipe for one-way communication 
+    *  using a read and a write descriptor, 
+    *  f[0]- to read, fd[1] - to */
     pipe(fd);
     pid_t pid = fork();
     if (pid < 0) {
         printf("Fork Failed\n");
         exit(0);
-    } else if (pid == 0) {
+    } 
+    else if (pid == 0) 
+    {
         /* child process here */
-        /* close the read file descripter
+        /* close the read descripter
            since child does not need to read */
         close(fd[0]);
         char args[200] = "";
@@ -33,18 +37,31 @@ int main(int arg_cnt, char ** argv) {
         struct timeval start_time;
         gettimeofday( & start_time, NULL);
         /* write start_time to the pipe */
-        write(fd[1], & start_time, sizeof(struct timeval));
-        /* close the write file descripter */
+        if(write(fd[1], & start_time, sizeof(struct timeval)) == -1)
+        {
+        	printf("Error writing to the pipe \n");
+        	exit(0);
+        }
+        /* close the write descripter */
         close(fd[1]);
         /* following will execute the command on shell */
         execlp("/bin/sh", "/bin/sh", "-c", args, NULL);
-    } else {
-        /* close the write file descripter
+    } 
+    else 
+    {
+        /* close the write descripter
            since parent does not need to read */
         close(fd[1]);
-        wait(NULL); /* wait for child process to finish */
+        /* wait for child process to finish */
+        wait(NULL); 
         struct timeval start_time, end_time;
-        read(fd[0], & start_time, sizeof(struct timeval)); /* read the start_time form pipe */
+        /* read the start_time from pipe */
+        if(read(fd[0], & start_time, sizeof(struct timeval)) == -1) 
+        {
+        	printf("Error reading from the pipe \n");
+        	exit(0);
+        }
+        /* close the read descriptor */
         close(fd[0]);
         gettimeofday( & end_time, NULL);
         printf("Elapsed Time: %ld\n", end_time.tv_usec - start_time.tv_usec);

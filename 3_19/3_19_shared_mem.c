@@ -17,11 +17,18 @@ int main(int arg_cnt, char ** argv) {
     }
     /* creating a shared memory space using mmap */
     start_time = mmap(NULL, sizeof(struct timeval), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+    if (start_time == MAP_FAILED)
+    {
+    	printf("Mapping failed\n");
+    	exit(0);
+    }
     pid_t pid = fork();
     if (pid < 0) {
         printf("Fork Failed\n");
         exit(1);
-    } else if (pid == 0) {
+    } 
+    else if (pid == 0) 
+    {
         /* child process here */
         char args[200] = "";
         char n = '\0';
@@ -33,8 +40,11 @@ int main(int arg_cnt, char ** argv) {
         gettimeofday(start_time, NULL);
         /* following will execute the command on shell */
         execlp("/bin/sh", "/bin/sh", "-c", args, NULL);
-    } else if (pid > 0) {
-        wait(NULL); /* wait for child to finish */
+    } 
+    else if (pid > 0) 
+    {
+    	/* wait for child to finish */
+        wait(NULL); 
         struct timeval end_time;
         gettimeofday( & end_time, NULL);
         printf("Elapsed Time: %ld\n", end_time.tv_usec - start_time -> tv_usec);
