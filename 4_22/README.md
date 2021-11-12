@@ -14,6 +14,6 @@ To run the compiled program:
 ```
 and follow the instructions.
 
-#Example Screenshots
-![Example] ("/screenshots/4_22_eg.png")
+# Example Screenshots
+![Example] (./screenshots/4_22_eg.png)
 
