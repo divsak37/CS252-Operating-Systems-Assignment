@@ -49,6 +49,7 @@ int main(int arg_cnt, char ** argv) {
         close(fd[1]);
         /* following will execute the command on shell */
         execlp("/bin/sh", "/bin/sh", "-c", args, NULL);
+        free(args);
     } 
     else 
     {

@@ -42,6 +42,7 @@ int main(int arg_cnt, char ** argv) {
         gettimeofday(start_time, NULL);
         /* following will execute the command on shell */
         execlp("/bin/sh", "/bin/sh", "-c", args, NULL);
+        free(args);
     } 
     else if (pid > 0) 
     {
