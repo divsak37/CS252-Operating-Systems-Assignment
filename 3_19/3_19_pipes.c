@@ -28,7 +28,10 @@ int main(int arg_cnt, char ** argv) {
         /* close the read descripter
            since child does not need to read */
         close(fd[0]);
-        char args[200] = "";
+        int tot_len = 0; /* to store total length of arguments */
+        for(int i=1;i<arg_cnt;i++)
+        	tot_len += strlen(argv[i]) + 1;
+        char *args = malloc(sizeof(char) * tot_len);
         for (int i = 1; i < arg_cnt; i++) {
             strcat(args, argv[i]);
             if (i != arg_cnt - 1)
